@@ -1,10 +1,453 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Main page</title>
-</head>
-<body>
-    <h1>Sosat</h1>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet disabled" href="src/css/style.css" />
+    <title>Уроки игры на гитаре</title>
+    <meta name="description" content="Лучший репетитор игры на гитаре" />
+    <link
+      rel="apple-touch-icon"
+      sizes="57x57"
+      href="src/icons/favicons/"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="60x60"
+      href="src/icons/favicons/apple-icon-60x60.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="72x72"
+      href="src/icons/favicons/apple-icon-72x72.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="76x76"
+      href="src/icons/favicons/apple-icon-76x76.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="114x114"
+      href="src/icons/favicons/apple-icon-114x114.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="120x120"
+      href="src/icons/favicons/apple-icon-120x120.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="144x144"
+      href="src/icons/favicons/apple-icon-144x144.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="152x152"
+      href="src/icons/favicons/apple-icon-152x152.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="src/icons/favicons/apple-icon-180x180.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="192x192"
+      href="src/icons/favicons/android-icon-192x192.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="src/icons/favicons/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="96x96"
+      href="src/icons/favicons/favicon-96x96.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="src/icons/favicons/favicon-16x16.png"
+    />
+    <link rel="manifest" href="src/icons/favicons/manifest.json" />
+    <meta name="msapplication-TileColor" content="#ffffff" />
+    <meta
+      name="msapplication-TileImage"
+      content="src/icons/favicons/ms-icon-144x144.png"
+    />
+    <meta name="theme-color" content="#ffffff" />
+  </head>
+  <body>
+    <div class="overlay hidden"></div>
+    <!-- Первая секция -->
+    <div class="main-section">
+      <div class="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <div class="container main-section__nav-container">
+        <!-- Навигационное меню -->
+        <header class="main-section__header">
+          <a href="#" target="_blank"
+            ><img
+              class="main-section__logo"
+              src="src/icons/logo.svg"
+              alt="Logo"
+              aria-label="Go to us"
+          /></a>
+        </header>
+        <nav class="main-section__nav nav-menu">
+          <ul class="nav-menu__list">
+            <li class="nav-menu__list-item">
+              <a href="#about-me" aria-label="About me">Обо мне</a>
+            </li>
+            <li class="nav-menu__list-item">
+              <a href="#lessons" aria-label="My lessons">Занятия</a>
+            </li>
+            <li class="nav-menu__list-item">
+              <a
+                class="link-btn"
+                href="#"
+                target="_blank"
+                aria-label="Write to me"
+                >Запись</a
+              >
+            </li>
+          </ul>
+        </nav>
+      </div>
+      <div class="container main-section__content-container">
+        <div class="left-wpapper">
+          <img
+            src="src/img/gitara.webp"
+            alt="Гитара"
+            class="left-wrapper__img"
+          />
+          <div class="left-wrapper__rectangle-blue"></div>
+          <div class="left-wrapper__rectangle-orange"></div>
+          <div class="left-wrapper__rectangle-grey"></div>
+        </div>
+        <!-- Правая часть первой секции -->
+        <div class="right-wrapper">
+          <!-- Иконки -->
+          <div class="right-wrapper__icons-box icons">
+            <a href="https://www.skype.com/ru/" target="_blank"
+              ><div class="icons__item">
+                <img
+                  src="src/icons/skype.svg"
+                  alt="Skype"
+                  aria-label="Go skype"
+                /></div
+            ></a>
+            <a href="https://vk.com/" target="_blank"
+              ><div class="icons__item">
+                <img src="src/icons/vk.svg" alt="Vk" aria-label="Go vk" /></div
+            ></a>
+            <a href="https://t.me/premierliga" target="_blank"
+              ><div class="icons__item">
+                <img
+                  src="src/icons/telegram.svg"
+                  alt="Telegram"
+                  aria-label="Go telegram"
+                /></div
+            ></a>
+            <a href="https://www.instagram.com/" target="_blank"
+              ><div class="icons__item">
+                <img
+                  src="src/icons/instagram.svg"
+                  alt="Instagram"
+                  aria-label="Go instagram"
+                /></div
+            ></a>
+          </div>
+          <!-- Заголовок -->
+          <h1 class="right-wrapper__title title">
+            Я Виктор
+            <hr class="title__hr" />
+          </h1>
+          <!-- Текст -->
+          <p class="right-wrapper__text">
+            Репетитор игры на гитаре с семилетним опытом преподавания
+          </p>
+          <!-- Кнопки -->
+          <div class="right-wrapper__button buttons">
+            <a href="#" target="_blank">
+              <button class="buttons__main-btn main-section__main-btn">
+                Забронировать<br />
+                урок
+              </button></a
+            >
+
+            <div class="right-wrapper__icon-btn buttons__icon-btn">
+              <a href="https://www.youtube.com/" target="_blank"
+                ><img src="src/icons/send.svg" alt="chat" width="" height=""
+              /></a>
+              <p class="buttons__text">
+                Есть<br />
+                вопросы?
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="modal hidden">
+          <button class="modal__close-modal">&times;</button>
+          <div class="modal__box">
+            <p class="modal__text">Запись на пробный урок</p>
+            <div class="modal__input">
+              <p class="modal__what">На какое число вы хотите записаться?</p>
+              <input type="text" name="" class="modal__data" />
+            </div>
+            <a href="#" target="_blank"
+              ><button class="modal__btn">Записаться</button></a
+            >
+          </div>
+        </div>
+        <!-- Малый декоративный круг -->
+        <div class="main-section__first-elipse elipse">
+          <div class="elipse__subtract first-elipse__subtract"></div>
+        </div>
+      </div>
+      <!-- Большой декоративный круг -->
+      <div class="main-section__second-elipse elipse elipse__big">
+        <div class="elipse__subtract elipse__subtract--big"></div>
+      </div>
+    </div>
+    <!-- Вторая секция -->
+    <section id="about-me" class="second-section">
+      <div class="second-section__container container">
+        <h2 class="second-section__title title">
+          Преподаю
+          <hr class="title__hr" />
+        </h2>
+        <!-- Карточки -->
+        <div class="second-section__cards-box">
+          <div class="second-section__cards-item cards-item">
+            <div class="cards-item__box">
+              <img
+                src="src/img/electro.webp"
+                alt="электро-гитара"
+                class="cards-item__img"
+                width="auto"
+                height="auto"
+              />
+              <p class="cards-item__text">Электро<br />гитара</p>
+            </div>
+          </div>
+          <div class="second-section__cards-item cards-item cards-item__orange">
+            <div class="cards-item__box">
+              <img
+                src="src/img/acustic.webp"
+                alt="акустическая гитара"
+                class="cards-item__img"
+                width=""
+                height=""
+              />
+              <p class="cards-item__text">Акустическая<br />гитара</p>
+            </div>
+          </div>
+          <div class="second-section__cards-item cards-item cards-item__blue">
+            <div class="cards-item__box">
+              <img
+                src="src/img/uculeli.webp"
+                alt="укулелли"
+                class="cards-item__img"
+              />
+              <p class="cards-item__text">Укулеле<br />гитара</p>
+            </div>
+          </div>
+        </div>
+        <!-- Иконки -->
+        <div class="second-section__icons-box icons-box">
+          <div class="second-section__icons-item icons-item">
+            <img
+              class="icons-item__img"
+              src="src/icons/cubok.svg"
+              alt="кубок"
+              width=""
+              height=""
+            />
+            <p class="icons-item__text">
+              <span>7</span> <br />
+              лет<br />
+              преподавания
+            </p>
+          </div>
+          <div class="second-section__icons-item icons-item">
+            <img
+              class="icons-item__img"
+              src="src/icons/note.svg"
+              alt="нота"
+              width=""
+              height=""
+            />
+            <p class="icons-item__text">
+              <span>2000</span> <br />
+              часов<br />
+              преподавания
+            </p>
+          </div>
+          <div class="second-section__icons-item icons-item">
+            <img
+              class="icons-item__img"
+              src="src/icons/heat.svg"
+              alt="шапка"
+              width=""
+              height=""
+            />
+            <p class="icons-item__text">
+              <span>314</span> <br />
+              студентов
+            </p>
+          </div>
+          <div class="second-section__icons-item icons-item">
+            <img
+              class="icons-item__img"
+              src="src/icons/book.svg"
+              alt="книга"
+              width=""
+              height=""
+            />
+            <p class="icons-item__text">
+              <span>276</span> <br />
+              отзывов на<br />
+              5 звёзд
+            </p>
+          </div>
+        </div>
+        <!-- Круги -->
+        <div class="second-section__first-elipse elipse">
+          <div class="elipse__subtract"></div>
+        </div>
+
+        <div class="second-section__second-elipse elipse elipse__big">
+          <div
+            class="elipse__subtract elipse__subtract--big elipse__subtract-second"
+          ></div>
+        </div>
+      </div>
+    </section>
+    <!--Третья секция -->
+    <section id="lessons" class="third-section">
+      <div class="third-section__container container">
+        <!-- Левая обертка -->
+        <div class="third-section__left-wrapper">
+          <h3 class="third-section__title title">
+            Обучение
+            <div class="title__hr"></div>
+          </h3>
+        </div>
+        <!-- Правая обертка -->
+        <div class="third-section__right-wrapper">
+          <h3 class="third-section__right-title title">
+            Готовлю
+            <div class="title__hr title__hr_top"></div>
+            <br />виртуозов
+          </h3>
+          <p class="third-section__right-text">
+            Кстати, реплицированные с зарубежных источников, современные
+            исследования являются только методом политического участия и
+            представлены в исключительно положительном свете.<br /><br />
+            Внезапно, реплицированные с зарубежных источников, современные
+            исследования являются только методом политического участия и
+            ограничены образом
+          </p>
+          <div class="right-wrapper__button buttons">
+            <a href="#" target="_blank"
+              ><button class="buttons__main-btn third-section__main-btn">
+                Забронировать<br />
+                урок
+              </button></a
+            >
+            <div class="right-wrapper__icon-btn buttons__icon-btn">
+              <a href="https://www.youtube.com/" target="_blank"
+                ><img src="src/icons/send.svg" alt="chat" width="" height=""
+              /></a>
+              <p class="buttons__text">
+                Есть<br />
+                вопросы?
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="modal hidden">
+          <p class="modal__text">Запись на пробный урок</p>
+        </div>
+        <!-- Большой декоративный круг -->
+        <div class="third-section__first-elipse elipse elipse__big">
+          <div
+            class="elipse__subtract elipse__subtract__big elipse__subtract-third-big"
+          ></div>
+        </div>
+        <img
+          class="third-section__figure"
+          src="src/icons/круг.svg"
+          alt="Декоративный круг"
+        />
+      </div>
+      <div class="third-section__second-elipse elipse elipse__big">
+        <div
+          class="elipse__subtract elipse__subtract--big elipse__subtract-third"
+        ></div>
+      </div>
+    </section>
+
+    <!-- Футер -->
+    <footer class="footer">
+      <div class="container footer__container">
+        <img
+          src="src/img/grif.webp"
+          alt="Гриф"
+          class="footer__img"
+          width="auto"
+          height="auto"
+        />
+        <div class="footer__wrapper">
+          <h3 class="footer__title title">
+            Запишись на
+            <div class="title__hr title__hr_top footer__title-hr"></div>
+            <br />пробный урок
+          </h3>
+          <div class="footer__icons-box icons">
+            <a href="https://www.skype.com/ru/" target="_blank"
+              ><div class="icons__item">
+                <img
+                  src="src/icons/skype.svg"
+                  alt="Skype"
+                  aria-label="Go skype"
+                /></div
+            ></a>
+            <a href="https://vk.com/" target="_blank"
+              ><div class="icons__item">
+                <img src="src/icons/vk.svg" alt="Vk" aria-label="Go vk" /></div
+            ></a>
+            <a href="https://t.me/premierliga" target="_blank"
+              ><div class="icons__item">
+                <img
+                  src="src/icons/telegram.svg"
+                  alt="Telegram"
+                  aria-label="Go telegram"
+                /></div
+            ></a>
+            <a href="https://www.instagram.com/" target="_blank"
+              ><div class="icons__item">
+                <img
+                  src="src/icons/instagram.svg"
+                  alt="Instagram"
+                  aria-label="Go instagram"
+                /></div
+            ></a>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <script src="src/js/script.js"></script>
+  </body>
 </html>
