@@ -201,13 +201,14 @@
           <button class="modal__close-modal">&times;</button>
           <div class="modal__box">
             <p class="modal__text">Запись на пробный урок</p>
+            <form th:method="POST" th:object="${lesson}">
             <div class="modal__input">
               <p class="modal__what">На какое число вы хотите записаться?</p>
-              <input type="text" name="" class="modal__data" />
+              <input type="date" th:name="date" class="modal__data" />
             </div>
-            <a href="#" target="_blank"
-              ><button class="modal__btn">Записаться</button></a
-            >
+              <a target="_blank"
+              ><button type="submit" class="modal__btn">Записаться</button></a>
+            </form>
           </div>
         </div>
         <!-- Малый декоративный круг -->
