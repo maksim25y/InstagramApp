@@ -3,7 +3,7 @@ package com.example.demo.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 
 @Entity
 @Data
