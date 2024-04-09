@@ -20,32 +20,40 @@ import java.util.Collections;
 
 
 public class JWTAuthenticationFilter extends OncePerRequestFilter {
+    //Логгер для записи логов
     public static final Logger LOG = LoggerFactory.getLogger(JWTTokenProvider.class);
     @Autowired
     private JWTTokenProvider jwtTokenProvider;
     @Autowired
     private CustomUserDetailsService customUserDetailsService;
+    //Получение jwt из риквеста
     private String getJWTFromRequest(HttpServletRequest httpServletRequest){
+        //Получение хэдера "Bearer ......"
         String bearToken = httpServletRequest.getHeader(SecurityConstants.HEADER_STRING);
+        //Если строка начинается с Bearer - токен есть
         if(StringUtils.hasText(bearToken)&&bearToken.startsWith(SecurityConstants.TOKEN_PREFIX)){
             return bearToken.split(" ")[1];
         }
         return null;
     }
-
+    //Проверка токена
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try{
             String jwt = getJWTFromRequest(request);
+            //Проверка что токен валидный и не пустой
             if(StringUtils.hasText(jwt)&&jwtTokenProvider.validateToken(jwt)){
+                //Получение id из токена
                 Long id = jwtTokenProvider.getUserIdFromToken(jwt);
+                //Загрузка юзера из БД по id
                 User userDetails = customUserDetailsService.loadUserById(id);
-
+                //Создание аутентификации на основе данных пользователя
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                         userDetails,null, Collections.emptyList()
                 );
-
+                //Установка деталей аутентификации
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                //Установка аутентификации в контексте безопасности
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         }catch (Exception e){

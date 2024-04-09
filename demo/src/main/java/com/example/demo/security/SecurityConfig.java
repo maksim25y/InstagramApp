@@ -18,8 +18,15 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(
+        //включает поддержку аннотации @Secured
+        //позволяет определять доступ к методам на основе ролей или атрибутов безопасности
         securedEnabled = true,
+        //включает поддержку аннотаций из стандарта Java EE JSR-250, таких
+        // как @RolesAllowed, для управления безопасностью в Java методах.
         jsr250Enabled = true,
+        //указывает, что Spring должен использовать CGLIB
+        // для создания прокси-объектов, что обеспечивает
+        // поддержку методов безопасности даже для неинтерфейсных классов.
         proxyTargetClass = true
 )
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
