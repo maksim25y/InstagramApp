@@ -1,4 +1,4 @@
-package com.example.demo.payload.response.request;
+package com.example.demo.payload.request;
 
 import lombok.Data;
 

@@ -2,7 +2,6 @@ package com.example.demo.security;
 
 import com.example.demo.entity.User;
 import io.jsonwebtoken.*;
-import io.jsonwebtoken.security.SignatureException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
@@ -37,7 +36,7 @@ public class JWTTokenProvider {
                 .setClaims(claimsMap)
                 .setIssuedAt(now)
                 .setExpiration(expiryDate)
-                .signWith(SignatureAlgorithm.HS512,SecurityConstants.SECRET)
+                .signWith(SignatureAlgorithm.HS512, SecurityConstants.SECRET)
                 .compact();
     }
     //Валидация токена
@@ -46,7 +45,6 @@ public class JWTTokenProvider {
         try{
             Jwts.parser()
                     .setSigningKey(SecurityConstants.SECRET)
-                    .build()
                     .parseClaimsJws(token);
             return true;
         }catch (SignatureException |
@@ -63,7 +61,6 @@ public class JWTTokenProvider {
         //Извлечение токена с помощью секрета
         Claims claims = Jwts.parser()
                 .setSigningKey(SecurityConstants.SECRET)
-                .build()
                 .parseClaimsJws(token)
                 .getBody();
         //Получение id из токена

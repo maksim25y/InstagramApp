@@ -6,7 +6,7 @@ import javax.validation.Constraint;
 import javax.validation.Payload;
 import java.lang.annotation.*;
 //Аннотация для проверки пароля - что совпал введеденный с подтверждаемым
-@Target({ElementType.TYPE, ElementType.FIELD,ElementType.ANNOTATION_TYPE})
+@Target({ElementType.TYPE,ElementType.ANNOTATION_TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = PasswordMatchesValidator.class)
 @Documented
