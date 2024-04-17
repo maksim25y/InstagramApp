@@ -9,13 +9,16 @@ import com.example.demo.repositories.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Transient;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.security.Principal;
 
 @Service
+@Transactional
 public class UserService {
     private static final Logger LOG = LoggerFactory.getLogger(UserService.class);
     private final UserRepository userRepository;
@@ -56,5 +59,9 @@ public class UserService {
     private User getUserByPrincipal(Principal principal){
         String username = principal.getName();
         return userRepository.findUserByUsername(username).orElseThrow(()-> new UsernameNotFoundException("User not found with username "+username));
+    }
+
+    public User getUserById(Long userId) {
+        return userRepository.findUserById(userId).orElseThrow(()->new UsernameNotFoundException("User not found"));
     }
 }
