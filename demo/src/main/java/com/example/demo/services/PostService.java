@@ -37,8 +37,8 @@ public class PostService {
         Post post = new Post();
         post.setUser(user);
         post.setTitle(postDTO.getTitle());
-        post.setCaption(post.getCaption());
-        post.setLocation(post.getLocation());
+        post.setCaption(postDTO.getCaption());
+        post.setLocation(postDTO.getLocation());
         post.setLikes(0);
 
         LOG.info("Saving Post for User:{}",user.getEmail());
