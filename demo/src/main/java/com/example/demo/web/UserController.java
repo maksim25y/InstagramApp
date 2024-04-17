@@ -38,7 +38,7 @@ public class UserController {
 
         return new ResponseEntity<>(userDTO, HttpStatus.OK);
     }
-
+    @PostMapping("/update")
     public ResponseEntity<Object>updateUser(@Valid @RequestBody UserDTO userDTO, BindingResult bindingResult,Principal principal){
         ResponseEntity<Object>errors = responseErrorValidation.mapValidationService(bindingResult);
         if(!ObjectUtils.isEmpty(errors))return errors;
