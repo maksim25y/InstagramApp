@@ -26,72 +26,73 @@ import java.util.zip.Inflater;
 
 @Service
 public class ImageUploadService {
-    private static final Logger LOG = LoggerFactory.getLogger(ImageUploadService.class);
-    private final ImageRepository imageRepository;
-    private final UserRepository userRepository;
-    private final PostRepository postRepository;
+    public static final Logger LOG = LoggerFactory.getLogger(ImageUploadService.class);
+
+    private ImageRepository imageRepository;
+    private UserRepository userRepository;
+    private PostRepository postRepository;
+
     @Autowired
     public ImageUploadService(ImageRepository imageRepository, UserRepository userRepository, PostRepository postRepository) {
         this.imageRepository = imageRepository;
         this.userRepository = userRepository;
         this.postRepository = postRepository;
     }
-    //загрузка фото для юзера
-    public ImageModel uploadImageToUser(MultipartFile file,Principal principal)throws IOException{
-        //Получение юзера
+
+    public ImageModel uploadImageToUser(MultipartFile file, Principal principal) throws IOException {
         User user = getUserByPrincipal(principal);
-        LOG.info("Uploading image profile to User {}",user.getEmail());
-        //Проверка есть ли у него уже фото
+        LOG.info("Uploading image profile to User {}", user.getUsername());
+
         ImageModel userProfileImage = imageRepository.findByUserId(user.getId()).orElse(null);
-        if(!ObjectUtils.isEmpty(userProfileImage)){
+        if (!ObjectUtils.isEmpty(userProfileImage)) {
             imageRepository.delete(userProfileImage);
         }
-        //Смена фото
+
         ImageModel imageModel = new ImageModel();
         imageModel.setUserId(user.getId());
         imageModel.setImageBytes(compressBytes(file.getBytes()));
         imageModel.setName(file.getOriginalFilename());
         return imageRepository.save(imageModel);
     }
-    //загрузка фото для поста
-    public ImageModel uploadImageToPost(MultipartFile file,Principal principal,Long postId) throws IOException{
-        //Получение юзера
+
+    public ImageModel uploadImageToPost(MultipartFile file, Principal principal, Long postId) throws IOException {
         User user = getUserByPrincipal(principal);
         Post post = user.getPosts()
                 .stream()
-                .filter(p->p.getId().equals(postId))
+                .filter(p -> p.getId().equals(postId))
                 .collect(toSinglePostCollector());
 
         ImageModel imageModel = new ImageModel();
         imageModel.setPostId(post.getId());
+        imageModel.setImageBytes(file.getBytes());
         imageModel.setImageBytes(compressBytes(file.getBytes()));
         imageModel.setName(file.getOriginalFilename());
-        LOG.info("Uploading image to Post {}",post.getId());
+        LOG.info("Uploading image to Post {}", post.getId());
+
         return imageRepository.save(imageModel);
     }
-    //получение фото для юзера
-    public ImageModel getImageToUser(Principal principal){
+
+    public ImageModel getImageToUser(Principal principal) {
         User user = getUserByPrincipal(principal);
 
         ImageModel imageModel = imageRepository.findByUserId(user.getId()).orElse(null);
-        if(!ObjectUtils.isEmpty(imageModel)){
+        if (!ObjectUtils.isEmpty(imageModel)) {
             imageModel.setImageBytes(decompressBytes(imageModel.getImageBytes()));
         }
+
         return imageModel;
     }
-    //получение фото для поста
-    public ImageModel getImageToPost(Long postId){
 
+    public ImageModel getImageToPost(Long postId) {
         ImageModel imageModel = imageRepository.findByPostId(postId)
-                .orElseThrow(()->new ImageNotFoundException("Cannot find image to Post:"+postId));
-        if(!ObjectUtils.isEmpty(imageModel)){
+                .orElseThrow(() -> new ImageNotFoundException("Cannot find image to Post: " + postId));
+        if (!ObjectUtils.isEmpty(imageModel)) {
             imageModel.setImageBytes(decompressBytes(imageModel.getImageBytes()));
         }
+
         return imageModel;
     }
 
-
-    //уменьшение битов в фото -> уменьшение веса
     private byte[] compressBytes(byte[] data) {
         Deflater deflater = new Deflater();
         deflater.setInput(data);
@@ -111,7 +112,6 @@ public class ImageUploadService {
         return outputStream.toByteArray();
     }
 
-    //увеличение веса фото
     private static byte[] decompressBytes(byte[] data) {
         Inflater inflater = new Inflater();
         inflater.setInput(data);
@@ -128,20 +128,23 @@ public class ImageUploadService {
         }
         return outputStream.toByteArray();
     }
-    private User getUserByPrincipal(Principal principal){
+
+    private User getUserByPrincipal(Principal principal) {
         String username = principal.getName();
-        return userRepository.findUserByUsername(username).orElseThrow(()-> new UsernameNotFoundException("User not found with username "+username));
+        return userRepository.findUserByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("Username not found with username " + username));
+
     }
-    //Вернет только 1 пост для юзера
-    private  <T> Collector<T,?,T> toSinglePostCollector(){
-        return Collectors.collectingAndThen(Collectors.toList(),
-                list->{
-                    if(list.size()!=1){
+
+    private <T> Collector<T, ?, T> toSinglePostCollector() {
+        return Collectors.collectingAndThen(
+                Collectors.toList(),
+                list -> {
+                    if (list.size() != 1) {
                         throw new IllegalStateException();
                     }
                     return list.get(0);
                 }
-                );
+        );
     }
-
 }

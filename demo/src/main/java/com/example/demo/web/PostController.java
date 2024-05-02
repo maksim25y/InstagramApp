@@ -31,8 +31,8 @@ public class PostController {
     private ResponseErrorValidation responseErrorValidation;
     @PostMapping("/create")
     public ResponseEntity<Object>createPost(@Valid @RequestBody PostDTO postDTO, BindingResult bindingResult, Principal principal){
-        ResponseEntity<Object>errors = responseErrorValidation.mapValidationService(bindingResult);
-        if(!ObjectUtils.isEmpty(errors))return errors;
+        ResponseEntity<Object> errors = responseErrorValidation.mapValidationService(bindingResult);
+        if (!ObjectUtils.isEmpty(errors)) return errors;
 
         Post post = postService.createPost(postDTO,principal);
         PostDTO createdPost = postFacade.postToPostDTO(post);
