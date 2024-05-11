@@ -7,7 +7,7 @@
 1. Склонируйте репозиторий
 
 ```shell
-git clone git@github.com/maksim25y/InstagramApp
+git clone git@github.com:maksim25y/InstagramApp.git
 ```
 
 2. Скачайте и установите Docker
