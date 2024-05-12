@@ -20,6 +20,7 @@ git clone git@github.com:maksim25y/InstagramApp.git
 
 ```shell
 cd InstagramApp
+cd demo
 ```
 
 #### Переменные окружения в .env
