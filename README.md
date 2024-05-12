@@ -14,7 +14,7 @@ git clone git@github.com:maksim25y/InstagramApp.git
 
 Скачать и найти инструкцию по установке вы можете на официальном сайте [Docker](https://www.docker.com)
 
-3. Запустите сайт в Docker
+3. Запустите сервер в Docker
 
 Для этого откройте терминал и перейдите в папку репозитория
 
