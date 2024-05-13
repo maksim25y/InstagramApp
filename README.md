@@ -39,6 +39,7 @@ cd demo
 docker-compose up --build
 ```
 Готово! Сервер запущен.
+Далее переходите к запуску клиента, если ещё не запустили: https://github.com/maksim25y/clientApp
 
 Чтобы остановить работу контейнеров, в терминале, откуда вы запускали docker-compose нажмите Ctrl+C (Control + C для Mac)
 </details>
