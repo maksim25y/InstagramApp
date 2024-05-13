@@ -24,14 +24,6 @@ cd demo
 ```
 
 #### Переменные окружения в .env
-
-Описание:
-1. POSTGRES_USER - логин для БД
-2. POSTGRES_PASSWORD - пароль от базы данных
-3. SPRING_DATASOURCE_URL - адрес БД
-4. SPRING_DATASOURCE_USERNAME - логин для БД, но для Spring
-5. SPRING_DATASOURCE_PASSWORD - пароль для БД, но для Spring
-
 Далее введите команду
 
 ```shell
