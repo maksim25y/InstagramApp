@@ -11,16 +11,9 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         globally_quoted_identifiers: true
   datasource:
-    url: jdbc:postgresql://localhost:5432/postgres
-    username: postgres
-    password: postgres
-    driver-class-name: org.postgresql.Driver
-
-#For Docker
-#  datasource:
-#    url: jdbc:postgresql://db:5432/postgres
-#    username: admin
-#    password: root
+    url: jdbc:postgresql://db:5432/postgres
+    username: admin
+    password: root
 
 springdoc:
   api-docs:
