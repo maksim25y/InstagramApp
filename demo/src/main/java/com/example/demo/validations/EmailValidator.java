@@ -1,7 +1,6 @@
 package com.example.demo.validations;
 
 import com.example.demo.annotations.ValidEmail;
-
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.util.regex.Matcher;

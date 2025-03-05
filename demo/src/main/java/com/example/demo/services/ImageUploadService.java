@@ -30,13 +30,11 @@ public class ImageUploadService {
 
     private ImageRepository imageRepository;
     private UserRepository userRepository;
-    private PostRepository postRepository;
 
     @Autowired
-    public ImageUploadService(ImageRepository imageRepository, UserRepository userRepository, PostRepository postRepository) {
+    public ImageUploadService(ImageRepository imageRepository, UserRepository userRepository) {
         this.imageRepository = imageRepository;
         this.userRepository = userRepository;
-        this.postRepository = postRepository;
     }
 
     public ImageModel uploadImageToUser(MultipartFile file, Principal principal) throws IOException {

@@ -1,8 +1,5 @@
 package com.example.demo.security;
 
-
-import io.jsonwebtoken.SignatureAlgorithm;
-
 //Набор констант - которые нужны для security
 public class SecurityConstants {
     //При каком url срабатывает
