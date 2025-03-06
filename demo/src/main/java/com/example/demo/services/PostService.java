@@ -1,6 +1,6 @@
 package com.example.demo.services;
 
-import com.example.demo.dto.PostDTO;
+import com.example.demo.payload.response.PostDTO;
 import com.example.demo.entity.ImageModel;
 import com.example.demo.entity.Post;
 import com.example.demo.entity.User;

@@ -1,6 +1,6 @@
 package com.example.demo.services;
 
-import com.example.demo.dto.UserDTO;
+import com.example.demo.payload.response.UserDTO;
 import com.example.demo.entity.User;
 import com.example.demo.entity.enums.ERole;
 import com.example.demo.exceptions.UserExistsException;

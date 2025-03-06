@@ -1,4 +1,4 @@
-package com.example.demo.dto;
+package com.example.demo.payload.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -16,7 +16,7 @@ public class PostDTO {
     @NotEmpty
     @Schema(description = "Описание записи", example = "Тестовое описание")
     private String caption;
-    @Schema(description = "Местоположеник", example = "Москва")
+    @Schema(description = "Местоположение", example = "Москва")
     private String location;
     @Schema(description = "username пользователя", example = "demelist")
     private String username;

@@ -1,6 +1,5 @@
-import com.example.demo.dto.UserDTO;
+import com.example.demo.payload.response.UserDTO;
 import com.example.demo.entity.User;
-import com.example.demo.entity.enums.ERole;
 import com.example.demo.exceptions.UserExistsException;
 import com.example.demo.payload.request.SignupRequest;
 import com.example.demo.repositories.UserRepository;

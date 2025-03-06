@@ -1,6 +1,6 @@
 package com.example.demo.web;
 
-import com.example.demo.dto.UserDTO;
+import com.example.demo.payload.response.UserDTO;
 import com.example.demo.entity.User;
 import com.example.demo.facade.UserFacade;
 import com.example.demo.services.UserService;

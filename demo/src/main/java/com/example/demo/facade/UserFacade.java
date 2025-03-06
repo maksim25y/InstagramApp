@@ -1,6 +1,6 @@
 package com.example.demo.facade;
 
-import com.example.demo.dto.UserDTO;
+import com.example.demo.payload.response.UserDTO;
 import com.example.demo.entity.User;
 import org.springframework.stereotype.Component;
 

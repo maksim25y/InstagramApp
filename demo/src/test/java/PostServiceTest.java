@@ -1,7 +1,7 @@
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-import com.example.demo.dto.PostDTO;
+import com.example.demo.payload.response.PostDTO;
 import com.example.demo.entity.Post;
 import com.example.demo.entity.User;
 import com.example.demo.exceptions.PostNotFoundException;

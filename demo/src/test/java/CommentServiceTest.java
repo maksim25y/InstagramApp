@@ -1,4 +1,4 @@
-import com.example.demo.dto.CommentDTO;
+import com.example.demo.payload.response.CommentDTO;
 import com.example.demo.entity.Comment;
 import com.example.demo.entity.Post;
 import com.example.demo.entity.User;

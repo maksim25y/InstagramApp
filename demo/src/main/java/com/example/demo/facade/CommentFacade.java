@@ -1,6 +1,6 @@
 package com.example.demo.facade;
 
-import com.example.demo.dto.CommentDTO;
+import com.example.demo.payload.response.CommentDTO;
 import com.example.demo.entity.Comment;
 import org.springframework.stereotype.Component;
 

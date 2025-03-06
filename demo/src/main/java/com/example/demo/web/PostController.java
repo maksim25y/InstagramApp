@@ -1,6 +1,6 @@
 package com.example.demo.web;
 
-import com.example.demo.dto.PostDTO;
+import com.example.demo.payload.response.PostDTO;
 import com.example.demo.entity.Post;
 import com.example.demo.facade.PostFacade;
 import com.example.demo.payload.response.MessageResponse;
