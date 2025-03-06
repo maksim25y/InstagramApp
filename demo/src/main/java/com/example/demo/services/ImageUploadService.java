@@ -4,12 +4,14 @@ import com.example.demo.entity.ImageModel;
 import com.example.demo.entity.Post;
 import com.example.demo.entity.User;
 import com.example.demo.exceptions.ImageNotFoundException;
+import com.example.demo.payload.request.ImageCreateRequest;
 import com.example.demo.repositories.ImageRepository;
 import com.example.demo.repositories.PostRepository;
 import com.example.demo.repositories.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.parameters.P;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
@@ -37,7 +39,7 @@ public class ImageUploadService {
         this.userRepository = userRepository;
     }
 
-    public ImageModel uploadImageToUser(MultipartFile file, Principal principal) throws IOException {
+    public ImageModel uploadImageToUser(ImageCreateRequest imageCreateRequest, Principal principal) {
         User user = getUserByPrincipal(principal);
         LOG.info("Uploading image profile to User {}", user.getUsername());
 
@@ -48,12 +50,12 @@ public class ImageUploadService {
 
         ImageModel imageModel = new ImageModel();
         imageModel.setUserId(user.getId());
-        imageModel.setImageBytes(compressBytes(file.getBytes()));
-        imageModel.setName(file.getOriginalFilename());
+        imageModel.setEncodedImage(imageCreateRequest.getEncodedImage());
+        imageModel.setName(imageCreateRequest.getName());
         return imageRepository.save(imageModel);
     }
 
-    public ImageModel uploadImageToPost(MultipartFile file, Principal principal, Long postId) throws IOException {
+    public ImageModel uploadImageToPost(ImageCreateRequest imageCreateRequest, Principal principal, Long postId) {
         User user = getUserByPrincipal(principal);
         Post post = user.getPosts()
                 .stream()
@@ -62,9 +64,8 @@ public class ImageUploadService {
 
         ImageModel imageModel = new ImageModel();
         imageModel.setPostId(post.getId());
-        imageModel.setImageBytes(file.getBytes());
-        imageModel.setImageBytes(compressBytes(file.getBytes()));
-        imageModel.setName(file.getOriginalFilename());
+        imageModel.setEncodedImage(imageCreateRequest.getEncodedImage());
+        imageModel.setName(imageCreateRequest.getName());
         LOG.info("Uploading image to Post {}", post.getId());
 
         return imageRepository.save(imageModel);
@@ -72,59 +73,12 @@ public class ImageUploadService {
 
     public ImageModel getImageToUser(Principal principal) {
         User user = getUserByPrincipal(principal);
-
-        ImageModel imageModel = imageRepository.findByUserId(user.getId()).orElse(null);
-        if (!ObjectUtils.isEmpty(imageModel)) {
-            imageModel.setImageBytes(decompressBytes(imageModel.getImageBytes()));
-        }
-
-        return imageModel;
+        return imageRepository.findByUserId(user.getId()).orElse(null);
     }
 
     public ImageModel getImageToPost(Long postId) {
-        ImageModel imageModel = imageRepository.findByPostId(postId)
+        return imageRepository.findByPostId(postId)
                 .orElseThrow(() -> new ImageNotFoundException("Cannot find image to Post: " + postId));
-        if (!ObjectUtils.isEmpty(imageModel)) {
-            imageModel.setImageBytes(decompressBytes(imageModel.getImageBytes()));
-        }
-
-        return imageModel;
-    }
-
-    private byte[] compressBytes(byte[] data) {
-        Deflater deflater = new Deflater();
-        deflater.setInput(data);
-        deflater.finish();
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream(data.length);
-        byte[] buffer = new byte[1024];
-        while (!deflater.finished()) {
-            int count = deflater.deflate(buffer);
-            outputStream.write(buffer, 0, count);
-        }
-        try {
-            outputStream.close();
-        } catch (IOException e) {
-            LOG.error("Cannot compress Bytes");
-        }
-        System.out.println("Compressed Image Byte Size - " + outputStream.toByteArray().length);
-        return outputStream.toByteArray();
-    }
-
-    private static byte[] decompressBytes(byte[] data) {
-        Inflater inflater = new Inflater();
-        inflater.setInput(data);
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream(data.length);
-        byte[] buffer = new byte[1024];
-        try {
-            while (!inflater.finished()) {
-                int count = inflater.inflate(buffer);
-                outputStream.write(buffer, 0, count);
-            }
-            outputStream.close();
-        } catch (IOException | DataFormatException e) {
-            LOG.error("Cannot decompress Bytes");
-        }
-        return outputStream.toByteArray();
     }
 
     private User getUserByPrincipal(Principal principal) {

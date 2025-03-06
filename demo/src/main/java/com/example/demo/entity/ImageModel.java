@@ -14,9 +14,8 @@ public class ImageModel {
     private Long id;
     @Column(nullable = false)
     private String name;
-    @Lob
-    @Column(columnDefinition = "bytea")
-    private byte[] imageBytes;
+    @Column(name = "encoded_image")
+    private String encodedImage;
     @JsonIgnore
     private Long userId;
     @JsonIgnore

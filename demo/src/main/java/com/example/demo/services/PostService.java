@@ -1,5 +1,7 @@
 package com.example.demo.services;
 
+import com.example.demo.facade.PostFacade;
+import com.example.demo.payload.request.PostCreateRequest;
 import com.example.demo.payload.response.PostDTO;
 import com.example.demo.entity.ImageModel;
 import com.example.demo.entity.Post;
@@ -16,7 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.security.Principal;
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -25,66 +27,81 @@ public class PostService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
     private final ImageRepository imageRepository;
+    private final PostFacade postFacade;
+
     @Autowired
-    public PostService(PostRepository postRepository, UserRepository userRepository, ImageRepository imageRepository) {
+    public PostService(PostRepository postRepository, UserRepository userRepository, ImageRepository imageRepository, PostFacade postFacade) {
         this.postRepository = postRepository;
         this.userRepository = userRepository;
         this.imageRepository = imageRepository;
+        this.postFacade = postFacade;
     }
 
-    public Post createPost(PostDTO postDTO, Principal principal){
-        User user = getUserByPrincipal(principal);
+    public PostDTO createPost(PostCreateRequest postCreateRequest, Principal principal) {
+        var user = getUserByPrincipal(principal);
 
-        Post post = new Post();
+        var post = new Post();
         post.setUser(user);
-        post.setTitle(postDTO.getTitle());
-        post.setCaption(postDTO.getCaption());
-        post.setLocation(postDTO.getLocation());
+        post.setTitle(postCreateRequest.getTitle());
+        post.setCaption(postCreateRequest.getCaption());
+        post.setLocation(postCreateRequest.getLocation());
         post.setLikes(0);
 
-        LOG.info("Saving Post for User:{}",user.getEmail());
-        return postRepository.save(post);
+        LOG.info("Saving Post for User:{}", user.getEmail());
+        return postFacade.postToPostDTO(postRepository.save(post));
     }
 
-    public List<Post>getAllPosts(){
-        return postRepository.findAllByOrderByCreatedDateDesc();
+    public List<PostDTO> getAllPosts() {
+        return postRepository.findAllByOrderByCreatedDateDesc().stream()
+                .map(postFacade::postToPostDTO)
+                .collect(Collectors.toList());
     }
-    public Post getPostById(Long postId,Principal principal){
-        User user = getUserByPrincipal(principal);
-        return postRepository.findPostByIdAndUser(postId,user)
-                .orElseThrow(()->new PostNotFoundException("Post cannot be found for username: "+user.getEmail()));
+
+    public Post getPostById(Long postId, Principal principal) {
+        var user = getUserByPrincipal(principal);
+
+        return postRepository.findPostByIdAndUser(postId, user)
+                .orElseThrow(() -> new PostNotFoundException("Post cannot be found for username: " + user.getEmail()));
     }
-    public List<Post>getAllPostsForUser(Principal principal){
-        User user = getUserByPrincipal(principal);
-        return postRepository.findAllByUserOrderByCreatedDateDesc(user);
-    }
-    public Post likePost(Long postId,String username){
-        Post post = postRepository.findById(postId)
-                .orElseThrow(()->new PostNotFoundException("Post cannot be found"));
-        Optional<String>userLiked = post.getLikedUsers()
+
+    public List<PostDTO> getAllPostsForUser(Principal principal) {
+        var user = getUserByPrincipal(principal);
+
+        return postRepository.findAllByUserOrderByCreatedDateDesc(user)
                 .stream()
-                .filter(u->u.equals(username)).findAny();
+                .map(postFacade::postToPostDTO)
+                .collect(Collectors.toList());
+    }
 
-        if(userLiked.isPresent()){
-            post.setLikes(post.getLikes()-1);
+    public PostDTO likePost(Long postId, String username) {
+        var post = postRepository.findById(postId)
+                .orElseThrow(() -> new PostNotFoundException("Post cannot be found"));
+
+        var userLiked = post.getLikedUsers()
+                .stream()
+                .filter(u -> u.equals(username)).findAny();
+
+        if (userLiked.isPresent()) {
+            post.setLikes(post.getLikes() - 1);
             post.getLikedUsers().remove(username);
-        }else {
-            post.setLikes(post.getLikes()+1);
+        } else {
+            post.setLikes(post.getLikes() + 1);
             post.getLikedUsers().add(username);
         }
-        return postRepository.save(post);
+        return postFacade.postToPostDTO(postRepository.save(post));
     }
-    public void deletePost(Long postId,Principal principal){
-        Post post = getPostById(postId,principal);
 
-        Optional<ImageModel>imageModel = imageRepository.findByPostId(post.getId());
-        postRepository.delete(post);
+    public void deletePost(Long postId, Principal principal) {
+        var post = getPostById(postId, principal);
+        var imageModel = imageRepository.findByPostId(post.getId());
+
         imageModel.ifPresent(imageRepository::delete);
+        postRepository.delete(post);
     }
 
-    private User getUserByPrincipal(Principal principal){
+    private User getUserByPrincipal(Principal principal) {
         String username = principal.getName();
-        return userRepository.findUserByUsername(username).orElseThrow(()-> new UsernameNotFoundException("User not found with username "+username));
+        return userRepository.findUserByUsername(username).orElseThrow(() -> new UsernameNotFoundException("User not found with username " + username));
     }
 
 }

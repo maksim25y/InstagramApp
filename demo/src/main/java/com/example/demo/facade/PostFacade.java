@@ -10,6 +10,7 @@ public class PostFacade {
         PostDTO postDTO = new PostDTO();
         postDTO.setId(post.getId());
         postDTO.setUsername(post.getUser().getUsername());
+        postDTO.setCaption(post.getCaption());
         postDTO.setLikes(post.getLikes());
         postDTO.setTitle(post.getTitle());
         postDTO.setLocation(post.getLocation());
