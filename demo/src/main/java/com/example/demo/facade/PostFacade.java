@@ -8,10 +8,10 @@ import org.springframework.stereotype.Component;
 public class PostFacade {
     public PostDTO postToPostDTO(Post post){
         PostDTO postDTO = new PostDTO();
-        postDTO.setId(postDTO.getId());
+        postDTO.setId(post.getId());
         postDTO.setUsername(post.getUser().getUsername());
         postDTO.setLikes(post.getLikes());
-        postDTO.setTitle(postDTO.getTitle());
+        postDTO.setTitle(post.getTitle());
         postDTO.setLocation(post.getLocation());
         postDTO.setLikes(post.getLikes());
         postDTO.setUsersLiked(post.getLikedUsers());
