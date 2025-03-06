@@ -31,19 +31,18 @@ public class ImageController {
     @Operation(summary = "Обновление изображения к посту",
             description = "Обновляет изображение поста")
     @PostMapping("/{postId}/upload")
-    public ResponseEntity<MessageResponse> uploadImageToPost(@PathVariable("postId") Long postId,
+    public ResponseEntity<Void> uploadImageToPost(@PathVariable("postId") Long postId,
                                                              @RequestBody ImageCreateRequest imageCreateRequest,
-                                                             Principal principal) throws IOException {
+                                                             Principal principal) {
         imageUploadService.uploadImageToPost(imageCreateRequest, principal, postId);
-        return new ResponseEntity<>(new MessageResponse("Image uploaded Succesfully"), HttpStatus.OK);
+        return ResponseEntity.ok().build();
     }
 
     @Operation(summary = "Получение изображения профиля текущего пользователя",
             description = "Возвращает изображение профиля текущего пользователя")
     @GetMapping("/profileImage")
-    public ResponseEntity<ImageModel> getImageForUser(Principal principal) {
-        ImageModel userImage = imageUploadService.getImageToUser(principal);
-        return new ResponseEntity<>(userImage, HttpStatus.OK);
+    public ImageModel getImageForUser(Principal principal) {
+        return imageUploadService.getImageToUser(principal);
     }
 
     @Operation(summary = "Получение изображение для поста",
