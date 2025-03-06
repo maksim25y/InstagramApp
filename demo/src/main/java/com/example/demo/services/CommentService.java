@@ -1,6 +1,7 @@
 package com.example.demo.services;
 
 import com.example.demo.facade.CommentFacade;
+import com.example.demo.payload.request.CommentCreateRequest;
 import com.example.demo.payload.response.CommentDTO;
 import com.example.demo.entity.Comment;
 import com.example.demo.entity.Post;
@@ -35,7 +36,7 @@ public class CommentService {
         this.commentFacade = commentFacade;
     }
 
-    public CommentDTO saveComment(Long postId, CommentDTO commentDTO, Principal principal) {
+    public CommentDTO saveComment(Long postId, CommentCreateRequest commentCreateRequest, Principal principal) {
         var user = getUserByPrincipal(principal);
         var post = postRepository.findById(postId)//TODO
                 .orElseThrow(() -> new PostNotFoundException("Post cannot be found for username: " + user.getEmail()));
@@ -44,7 +45,7 @@ public class CommentService {
         comment.setPost(post);
         comment.setUserId(user.getId());
         comment.setUsername(user.getUsername());
-        comment.setMessage(commentDTO.getMessage());
+        comment.setMessage(commentCreateRequest.getMessage());
 
         LOG.info("Saving comment for Post: {}", post.getId());
         return commentFacade.commentToCommentDTO(commentRepository.save(comment));

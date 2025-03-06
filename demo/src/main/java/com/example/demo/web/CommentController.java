@@ -1,5 +1,6 @@
 package com.example.demo.web;
 
+import com.example.demo.payload.request.CommentCreateRequest;
 import com.example.demo.payload.response.CommentDTO;
 import com.example.demo.entity.Comment;
 import com.example.demo.facade.CommentFacade;
@@ -33,10 +34,10 @@ public class CommentController {
     @Operation(summary = "Добавление нового комментария",
             description = "Создаёт комментарий к записи")
     @PostMapping("/{postId}")
-    public CommentDTO createComment(@Valid @RequestBody CommentDTO commentDTO,
-                                    @PathVariable("postId") String postId,
+    public CommentDTO createComment(@Valid @RequestBody CommentCreateRequest commentCreateRequest,
+                                    @PathVariable("postId") Long postId,
                                     Principal principal) {
-        return commentService.saveComment(Long.parseLong(postId), commentDTO, principal);
+        return commentService.saveComment(postId, commentCreateRequest, principal);
     }
 
     @Operation(summary = "Получение всех комментариев к записи",
