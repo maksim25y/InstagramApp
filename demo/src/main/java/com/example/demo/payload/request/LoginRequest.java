@@ -8,10 +8,10 @@ import javax.validation.constraints.NotEmpty;
 @Data
 @Schema(description = "Данные для входа в аккаунт")
 public class LoginRequest {
-    @Schema(description = "Имя пользователя", example = "demelist")
+    @Schema(description = "Имя пользователя (email)", example = "demelist@mail.ru")
     @NotEmpty(message = "Имя пользователя не может быть пустым")
     private String username;
     @Schema(description = "Пароль пользователя", example = "password123")
-    @NotEmpty(message = "Password cannot be empty")
+    @NotEmpty(message = "Пароль должен быть указан")
     private String password;
 }

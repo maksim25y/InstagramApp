@@ -1,11 +1,11 @@
-package com.example.demo.facade;
+package com.example.demo.mapper;
 
 import com.example.demo.payload.response.PostDTO;
 import com.example.demo.entity.Post;
 import org.springframework.stereotype.Component;
 
 @Component
-public class PostFacade {
+public class PostMapper {
     public PostDTO postToPostDTO(Post post){
         PostDTO postDTO = new PostDTO();
         postDTO.setId(post.getId());

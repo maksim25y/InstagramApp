@@ -1,6 +1,6 @@
 package com.example.demo.services;
 
-import com.example.demo.facade.UserFacade;
+import com.example.demo.mapper.UserMapper;
 import com.example.demo.payload.response.UserDTO;
 import com.example.demo.entity.User;
 import com.example.demo.entity.enums.ERole;
@@ -23,13 +23,13 @@ public class UserService {
     private static final Logger LOG = LoggerFactory.getLogger(UserService.class);
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
-    private final UserFacade userFacade;
+    private final UserMapper userMapper;
 
     @Autowired
-    public UserService(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder, UserFacade userFacade) {
+    public UserService(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder, UserMapper userMapper) {
         this.userRepository = userRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-        this.userFacade = userFacade;
+        this.userMapper = userMapper;
     }
 
     public User createUser(SignupRequest userIn) {
@@ -45,7 +45,7 @@ public class UserService {
             return userRepository.save(user);
         } catch (Exception e) {
             LOG.error("Error during registration. {}", e.getMessage());
-            throw new UserExistsException("The user " + userIn.getUsername() + " already exist. Please check credentials");
+            throw new UserExistsException(userIn.getUsername());
         }
     }
 
@@ -55,11 +55,11 @@ public class UserService {
         user.setLastname(userDTO.getLastname());
         user.setBio(userDTO.getBio());
 
-        return userFacade.userToUserDTO(userRepository.save(user));
+        return userMapper.userToUserDTO(userRepository.save(user));
     }
 
     public UserDTO getCurrentUser(Principal principal) {
-        return userFacade.userToUserDTO(getUserByPrincipal(principal));
+        return userMapper.userToUserDTO(getUserByPrincipal(principal));
     }
 
     private User getUserByPrincipal(Principal principal) {
@@ -68,7 +68,7 @@ public class UserService {
     }
 
     public UserDTO getUserById(Long userId) {
-        return userFacade.userToUserDTO(userRepository.findUserById(userId)
+        return userMapper.userToUserDTO(userRepository.findUserById(userId)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found")));
     }
 }

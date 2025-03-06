@@ -1,11 +1,11 @@
-package com.example.demo.facade;
+package com.example.demo.mapper;
 
 import com.example.demo.payload.response.CommentDTO;
 import com.example.demo.entity.Comment;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CommentFacade {
+public class CommentMapper {
     public CommentDTO commentToCommentDTO(Comment comment) {
         CommentDTO commentDTO = new CommentDTO();
         commentDTO.setId(comment.getId());

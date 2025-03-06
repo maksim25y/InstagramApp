@@ -1,8 +1,7 @@
-package com.example.demo.web;
+package com.example.demo.controllers;
 
 import com.example.demo.payload.response.UserDTO;
 import com.example.demo.services.UserService;
-import com.example.demo.validations.ResponseErrorValidation;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +17,6 @@ import java.security.Principal;
 public class UserController {
     @Autowired
     private UserService userService;
-    @Autowired
-    private ResponseErrorValidation responseErrorValidation;
 
     @Operation(summary = "Получить текущего пользователя",
             description = "Возвращает информацию о текущем пользователе")

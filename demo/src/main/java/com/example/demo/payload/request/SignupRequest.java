@@ -1,7 +1,6 @@
 package com.example.demo.payload.request;
 
 import com.example.demo.annotations.PasswordMatches;
-import com.example.demo.annotations.ValidEmail;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import javax.validation.constraints.Email;
@@ -13,22 +12,21 @@ import javax.validation.constraints.Size;
 @PasswordMatches
 @Schema(description = "Данные для регистрации")
 public class SignupRequest {
-    @Email(message = "It should have email format")
-    @NotBlank(message = "User email is required")
-    @Schema(description = "email пользователя", example = "demelist")
-    @ValidEmail
+    @Email(message = "Некорректный формат email")
+    @NotBlank(message = "Адрес электронной почты пользователя должен быть указан")
+    @Schema(description = "email пользователя", example = "demelist@mail.ru")
     private String email;
     @Schema(description = "Имя пользователя", example = "Иван")
-    @NotEmpty(message = "Please enter your firstname")
+    @NotEmpty(message = "Имя пользователя должно быть указано")
     private String firstname;
     @Schema(description = "Фамилия пользователя", example = "Иванов")
-    @NotEmpty(message = "Please enter your lastname")
+    @NotEmpty(message = "Фамилия пользователя должна быть указана")
     private String lastname;
     @Schema(description = "Ник пользователя", example = "demelist")
-    @NotEmpty(message = "Please enter your username")
+    @NotEmpty(message = "Ник пользователя должен быть указан")
     private String username;
-    @NotEmpty(message = "Password is required")
-    @Size(min = 6)
+    @NotEmpty(message = "Пароль должен быть указан")
+    @Size(min = 6, message = "Длина пароля от 6 символов")
     @Schema(description = "Пароль пользователя", example = "password123")
     private String password;
     @Schema(description = "Повторение пароля", example = "password123")

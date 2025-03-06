@@ -1,4 +1,4 @@
-package com.example.demo.web;
+package com.example.demo.controllers;
 
 import com.example.demo.payload.request.PostCreateRequest;
 import com.example.demo.payload.response.PostDTO;

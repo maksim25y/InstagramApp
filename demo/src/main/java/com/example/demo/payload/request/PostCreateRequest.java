@@ -7,10 +7,10 @@ import javax.validation.constraints.NotEmpty;
 @Data
 @Schema(description = "Данные для создания поста")
 public class PostCreateRequest {
-    @NotEmpty
+    @NotEmpty(message = "Пост должен иметь заголовок")
     @Schema(description = "Заголовок записи", example = "Запись 1")
     private String title;
-    @NotEmpty
+    @NotEmpty(message = "Пост должен иметь описание")
     @Schema(description = "Описание записи", example = "Тестовое описание")
     private String caption;
     @Schema(description = "Местоположение", example = "Москва")

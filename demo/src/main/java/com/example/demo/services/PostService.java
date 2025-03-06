@@ -1,9 +1,8 @@
 package com.example.demo.services;
 
-import com.example.demo.facade.PostFacade;
+import com.example.demo.mapper.PostMapper;
 import com.example.demo.payload.request.PostCreateRequest;
 import com.example.demo.payload.response.PostDTO;
-import com.example.demo.entity.ImageModel;
 import com.example.demo.entity.Post;
 import com.example.demo.entity.User;
 import com.example.demo.exceptions.PostNotFoundException;
@@ -27,14 +26,14 @@ public class PostService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
     private final ImageRepository imageRepository;
-    private final PostFacade postFacade;
+    private final PostMapper postMapper;
 
     @Autowired
-    public PostService(PostRepository postRepository, UserRepository userRepository, ImageRepository imageRepository, PostFacade postFacade) {
+    public PostService(PostRepository postRepository, UserRepository userRepository, ImageRepository imageRepository, PostMapper postMapper) {
         this.postRepository = postRepository;
         this.userRepository = userRepository;
         this.imageRepository = imageRepository;
-        this.postFacade = postFacade;
+        this.postMapper = postMapper;
     }
 
     public PostDTO createPost(PostCreateRequest postCreateRequest, Principal principal) {
@@ -48,12 +47,12 @@ public class PostService {
         post.setLikes(0);
 
         LOG.info("Saving Post for User:{}", user.getEmail());
-        return postFacade.postToPostDTO(postRepository.save(post));
+        return postMapper.postToPostDTO(postRepository.save(post));
     }
 
     public List<PostDTO> getAllPosts() {
         return postRepository.findAllByOrderByCreatedDateDesc().stream()
-                .map(postFacade::postToPostDTO)
+                .map(postMapper::postToPostDTO)
                 .collect(Collectors.toList());
     }
 
@@ -61,7 +60,7 @@ public class PostService {
         var user = getUserByPrincipal(principal);
 
         return postRepository.findPostByIdAndUser(postId, user)
-                .orElseThrow(() -> new PostNotFoundException("Post cannot be found for username: " + user.getEmail()));
+                .orElseThrow(() -> new PostNotFoundException(postId));
     }
 
     public List<PostDTO> getAllPostsForUser(Principal principal) {
@@ -69,13 +68,13 @@ public class PostService {
 
         return postRepository.findAllByUserOrderByCreatedDateDesc(user)
                 .stream()
-                .map(postFacade::postToPostDTO)
+                .map(postMapper::postToPostDTO)
                 .collect(Collectors.toList());
     }
 
     public PostDTO likePost(Long postId, String username) {
         var post = postRepository.findById(postId)
-                .orElseThrow(() -> new PostNotFoundException("Post cannot be found"));
+                .orElseThrow(() -> new PostNotFoundException(postId));
 
         var userLiked = post.getLikedUsers()
                 .stream()
@@ -88,7 +87,7 @@ public class PostService {
             post.setLikes(post.getLikes() + 1);
             post.getLikedUsers().add(username);
         }
-        return postFacade.postToPostDTO(postRepository.save(post));
+        return postMapper.postToPostDTO(postRepository.save(post));
     }
 
     public void deletePost(Long postId, Principal principal) {

@@ -1,26 +1,16 @@
-package com.example.demo.web;
+package com.example.demo.controllers;
 
 import com.example.demo.payload.request.CommentCreateRequest;
 import com.example.demo.payload.response.CommentDTO;
-import com.example.demo.entity.Comment;
-import com.example.demo.facade.CommentFacade;
-import com.example.demo.payload.response.MessageResponse;
 import com.example.demo.services.CommentService;
-import com.example.demo.validations.ResponseErrorValidation;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.ObjectUtils;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
 import javax.validation.Valid;
 import java.security.Principal;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/comment")

@@ -5,26 +5,18 @@ import com.example.demo.entity.Post;
 import com.example.demo.entity.User;
 import com.example.demo.exceptions.ImageNotFoundException;
 import com.example.demo.payload.request.ImageCreateRequest;
+import com.example.demo.payload.response.ImageResponse;
 import com.example.demo.repositories.ImageRepository;
-import com.example.demo.repositories.PostRepository;
 import com.example.demo.repositories.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.parameters.P;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.security.Principal;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
-import java.util.zip.DataFormatException;
-import java.util.zip.Deflater;
-import java.util.zip.Inflater;
 
 @Service
 public class ImageUploadService {
@@ -39,7 +31,7 @@ public class ImageUploadService {
         this.userRepository = userRepository;
     }
 
-    public ImageModel uploadImageToUser(ImageCreateRequest imageCreateRequest, Principal principal) {
+    public ImageResponse uploadImageToUser(ImageCreateRequest imageCreateRequest, Principal principal) {
         User user = getUserByPrincipal(principal);
         LOG.info("Uploading image profile to User {}", user.getUsername());
 
@@ -52,10 +44,11 @@ public class ImageUploadService {
         imageModel.setUserId(user.getId());
         imageModel.setEncodedImage(imageCreateRequest.getEncodedImage());
         imageModel.setName(imageCreateRequest.getName());
-        return imageRepository.save(imageModel);
+        var image = imageRepository.save(imageModel);
+        return ImageResponse.builder().name(image.getName()).encodedImage(image.getEncodedImage()).build();
     }
 
-    public ImageModel uploadImageToPost(ImageCreateRequest imageCreateRequest, Principal principal, Long postId) {
+    public ImageResponse uploadImageToPost(ImageCreateRequest imageCreateRequest, Principal principal, Long postId) {
         User user = getUserByPrincipal(principal);
         Post post = user.getPosts()
                 .stream()
@@ -68,23 +61,31 @@ public class ImageUploadService {
         imageModel.setName(imageCreateRequest.getName());
         LOG.info("Uploading image to Post {}", post.getId());
 
-        return imageRepository.save(imageModel);
+        var image = imageRepository.save(imageModel);
+
+        return ImageResponse.builder().name(image.getName()).encodedImage(image.getEncodedImage()).build();
     }
 
-    public ImageModel getImageToUser(Principal principal) {
+    public ImageResponse getImageToUser(Principal principal) {
         User user = getUserByPrincipal(principal);
-        return imageRepository.findByUserId(user.getId()).orElse(null);
+        var image = imageRepository.findByUserId(user.getId()).orElse(null);
+        if (image != null) {
+            return ImageResponse.builder().name(image.getName()).encodedImage(image.getEncodedImage()).build();
+        }
+        return null;
     }
 
-    public ImageModel getImageToPost(Long postId) {
-        return imageRepository.findByPostId(postId)
-                .orElseThrow(() -> new ImageNotFoundException("Cannot find image to Post: " + postId));
+    public ImageResponse getImageToPost(Long postId) {
+        var image = imageRepository.findByPostId(postId)
+                .orElseThrow(() -> new ImageNotFoundException(postId));
+
+        return ImageResponse.builder().name(image.getName()).encodedImage(image.getEncodedImage()).build();
     }
 
     private User getUserByPrincipal(Principal principal) {
         String username = principal.getName();
         return userRepository.findUserByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("Username not found with username " + username));
+                .orElseThrow(() -> new UsernameNotFoundException(username));
 
     }
 

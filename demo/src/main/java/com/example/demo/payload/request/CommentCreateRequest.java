@@ -8,7 +8,7 @@ import javax.validation.constraints.NotEmpty;
 @Data
 @Schema(description = "Данные для создания комментария")
 public class CommentCreateRequest {
-    @NotEmpty
+    @NotEmpty(message = "Текст комментария должен быть указан")
     @Schema(description = "Текст комментария", example = "Норм")
     private String message;
 }

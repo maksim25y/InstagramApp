@@ -1,11 +1,11 @@
-package com.example.demo.facade;
+package com.example.demo.mapper;
 
 import com.example.demo.payload.response.UserDTO;
 import com.example.demo.entity.User;
 import org.springframework.stereotype.Component;
 
 @Component
-public class UserFacade {
+public class UserMapper {
     //Метод для вызова на контроллере
     public UserDTO userToUserDTO(User user){
         UserDTO userDTO = new UserDTO();
