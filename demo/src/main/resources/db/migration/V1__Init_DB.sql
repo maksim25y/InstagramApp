@@ -53,7 +53,7 @@ create table image_model
     id          serial
         primary key,
     name        varchar not null,
-    image_bytes varchar,
+    encoded_image text,
     user_id     bigint,
     post_id     bigint
 );
