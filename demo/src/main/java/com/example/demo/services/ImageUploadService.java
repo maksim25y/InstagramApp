@@ -45,7 +45,10 @@ public class ImageUploadService {
         imageModel.setEncodedImage(imageCreateRequest.getEncodedImage());
         imageModel.setName(imageCreateRequest.getName());
         var image = imageRepository.save(imageModel);
-        return ImageResponse.builder().name(image.getName()).encodedImage(image.getEncodedImage()).build();
+        return ImageResponse.builder()
+                .name(image.getName())
+                .encodedImage(image.getEncodedImage())
+                .build();
     }
 
     public ImageResponse uploadImageToPost(ImageCreateRequest imageCreateRequest, Principal principal, Long postId) {
